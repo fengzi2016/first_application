@@ -1,12 +1,7 @@
 /**
  * Created by root on 17-7-10.
  */
-let collection=
-    [
-        ["学号","姓名", "数学", "语文","英语","编程"],
-        ['201611',"张三", "95", "80", "75", "80"],
-        ['201612',"李四", "80", "70", "85", "90"]
-    ];
+
 
 function every_sum(collection) {
     let every_sum_a=[];
@@ -64,7 +59,7 @@ function all_sum_average(every_average) {
     return all_sum_average_a;
 }
 /*1:55*/
-function print() {
+function print(collection) {
     let everySum=every_sum(collection);
     let temp_every_sum=every_sum(collection);
     let allSumMedian=all_sum_median(temp_every_sum);

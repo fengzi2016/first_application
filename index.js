@@ -19,11 +19,29 @@ function Add() {
     return addInfo;
 }
 function FirstJudge(info){
-    let myRe=/^[a-zA-Z]||[\u4e00-\u9fa5],d{4},[a-zA-Z]||[\u4e00-\u9fa5],d{1,3},[[0-9a-zA-Z\u4e00-\u9fa5_]:d{1,100},]{4}$/;
-    let MyArray=myRe.exec(info);
-    if(MyArray!==null){
-        return true;
-    }else{
+    let myArr=info.split(',');
+    let trueFlag=0;
+    if(myArr.length===8){
+       if( /^[a-zA-Z]||[\u4e00-\u9fa5]$/.exec(myArr[0])!==null){
+           trueFlag++;
+       }
+       if(/^[0-9]{4}$/.exec(myArr[1])!==null){
+           trueFlag++;
+        }
+        if(/^[a-zA-Z]||[\u4e00-\u9fa5]$/.exec(myArr[2])!==null){
+           trueFlag++;
+        }
+        if(/^[0-9]{1,2}$/.exec(myArr[3])!==null){
+            trueFlag++;
+        }
+        for(let i=4;i<8;i++){
+            if(/^[\u4e00-\u9fa5]{2,10}:[0-9]{1,3}$/.exec(myArr[i])!==null){
+                trueFlag++;
+            }
+        }
+        return trueFlag===8?true:false;
+
+    }else{2
         return false;
     }
 }
@@ -36,20 +54,28 @@ function printGetId() {
     return getId;
 }
 function SecondJudge(inputInfo,baseInfo) {
-    for (let input_info of inputInfo) {
-        if (baseInfo.indexOf(input_info) !== -1) {
-            return true;
-        }
+    baseInfo=baseInfo.reduce(function(accumulator,currentValue){
+       accumulator.push(currentValue[0]);
+       return accumulator;
+    },[]);
+    if(inputInfo.split(',').length>1){
+        inputInfo=inputInfo.split(',');
+        for (let input_info of inputInfo) {
+            if (baseInfo.indexOf(input_info) !== -1) {
+                return true;
+            }
+        }return false;
+    }else{
+       return  baseInfo.indexOf(inputInfo) !== -1?true:false;
     }
-    return false;
-
 }
 function SecondBehavior(inputInfo,baseInfo) {
     let needInfo;
-    if (inputInfo.length > 1) {
-        needInfo = baseInfo.reduce(function (accumulator, currentValue) {
+    if (inputInfo.split(',').length > 1) {
+        inputInfo=inputInfo.split(',');
+        needInfo = baseInfo.reduce(function (accumulator, currentValue,currentIndex) {
             for (let input_info of inputInfo) {
-                if (input_info === currentValue[0]) {
+                if (input_info === currentValue[0]||currentIndex===0) {
                     accumulator.push(currentValue);
                     break;
                 }
@@ -58,8 +84,8 @@ function SecondBehavior(inputInfo,baseInfo) {
         }, []);
 
     }else{
-        needInfo=baseInfo.filter(function (number) {
-            return number[0]===inputInfo;
+        needInfo=baseInfo.filter(function (number,index) {
+            return number[0]===inputInfo||index===0;
         });
     }
     return needInfo;
@@ -73,7 +99,6 @@ function start() {
     if(getNum==='1'){
         let addNum=Add();
         let firstJudge=FirstJudge(addNum);
-        console.log(firstJudge);
         while(firstJudge===false) {
            let nextInput=FirstErrorInput();
            addNum=nextInput;
@@ -93,7 +118,7 @@ function start() {
         let needInfo=SecondBehavior(getId,baseInfo);
         Print.print(needInfo);
         start();
-        }else{
+        }else if(getNum==='3'){
         return false;
     }
 }
