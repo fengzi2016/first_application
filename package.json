@@ -1,0 +1,15 @@
+{
+  "name": "fengzi2016",
+  "version": "1.0.0",
+  "description": "first",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "fengzi2016",
+  "license": "ISC",
+  "dependencies": {
+    "readline-sync": "^1.4.7",
+    "sinon": "^2.3.8"
+  }
+}
