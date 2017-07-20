@@ -41,7 +41,7 @@ function FirstJudge(info){
         }
         return trueFlag===8?true:false;
 
-    }else{2
+    }else{
         return false;
     }
 }
